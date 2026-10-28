@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Ironlog</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;800&family=Barlow:wght@500;700&display=swap">
+<style>
+:root{--bg:#eceef5;--card:#fff;--ink:#14161f;--mute:#6a7088;--line:#dcdfeb;--acc:#9aa3b5;--on:#14161f;--f1:"Barlow Condensed","Arial Narrow",Impact,sans-serif;--f2:Barlow,"Segoe UI",system-ui,sans-serif;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#10121a;--card:#1a1d29;--ink:#f2f3f8;--mute:#8d93ab;--line:#2a2e40}}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+body::before{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;background:var(--hg,none)}
+.streak+.streak{margin-left:8px}
+.pc{display:inline-flex;align-items:center;justify-content:center;width:46px;height:64px;border-radius:9px;background:#fff;color:#14161f;font:800 21px var(--f1);margin:6px 5px 0 0;border:1px solid var(--line);padding:0}
+.pc.r{color:#d92d4a}.pc.back{background:var(--acc);color:var(--on)}.pc.hold{outline:3px solid var(--acc);transform:translateY(-8px)}
+.row2{display:flex;gap:8px}.row2 .btn{margin-top:12px}
+.ct{background:var(--bg);border:2px solid;border-radius:12px;padding:8px 4px;text-align:center}
+.cgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:10px}
+body{margin:0 auto;background:var(--bg);color:var(--ink);font-family:var(--f2);font-weight:500;max-width:520px;padding-bottom:92px;min-height:100vh}
+h1,h2,h3,.f1{font-family:var(--f1);font-weight:800;margin:0;letter-spacing:.01em}
+h3{font-size:22px}
+button,input,select{font:inherit}
+button{cursor:pointer;border:0;color:inherit}
+.hero{margin:14px 16px 0;padding:18px;border-radius:26px;background:var(--card);border:1px solid var(--line);display:flex;gap:16px;align-items:center;position:relative;overflow:hidden}
+.hero:before{content:"";position:absolute;inset:0 auto 0 0;width:6px;background:var(--acc)}
+.ring{position:relative;width:104px;height:104px;flex:none}
+.ring svg{transform:rotate(-90deg)}
+.ring b{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font:800 30px var(--f1)}
+.rname{font:800 34px/0.95 var(--f1);color:var(--acc)}
+.sub{color:var(--mute);font-size:14px;margin-top:6px}
+.streak{display:inline-flex;gap:6px;align-items:center;margin-top:10px;background:var(--bg);border-radius:99px;padding:6px 12px;font-weight:700;font-size:14px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:18px;margin:14px 16px 0;padding:16px}
+.lbl{font-size:13px;color:var(--mute);margin-bottom:6px;display:block}
+.pick{position:relative;display:flex;justify-content:space-between;align-items:center;padding:6px 0 14px}
+.pick .f1{font-size:36px;line-height:1}
+.pick select{position:absolute;inset:0;width:100%;height:100%;opacity:0;font-size:16px}
+.tag{display:inline-block;background:var(--acc);color:var(--on);border-radius:8px;padding:3px 9px;font-size:13px;font-weight:700;margin-top:6px}
+.steps{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.stp{background:var(--bg);border-radius:16px;padding:10px}
+.stp div{display:flex;align-items:center;gap:4px}
+.stp button{width:44px;height:48px;border-radius:12px;background:var(--card);font:800 26px var(--f1);flex:none;border:1px solid var(--line)}
+.stp input{width:100%;min-width:0;text-align:center;background:none;border:0;color:var(--ink);font:800 34px var(--f1);padding:0}
+.stp input:focus{outline:2px solid var(--acc);border-radius:8px}
+.btn{display:block;width:100%;margin-top:14px;padding:16px;border-radius:16px;background:var(--acc);color:var(--on);font:800 21px var(--f1);text-align:center;letter-spacing:.03em}
+.btn.ghost{background:var(--bg);color:var(--ink)}
+.btn:active{transform:scale(.98)}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+.chip{background:var(--bg);border:1px solid var(--line);border-radius:99px;padding:7px 13px;font-size:14px;font-weight:700}
+.chip.on{background:var(--acc);color:var(--on);border-color:var(--acc)}
+.set{display:flex;justify-content:space-between;align-items:center;padding:12px 0;border-bottom:1px solid var(--line)}
+.set:last-child{border:0}
+.set .n{font:800 26px var(--f1)}
+.set small{color:var(--mute);font-size:13px}
+.pr{background:#ff4d3d;color:#fff;border-radius:6px;padding:1px 7px;font:800 13px var(--f1);margin-left:8px}
+.x{background:none;color:var(--mute);font-size:24px;padding:4px 8px}
+input[type=text]{width:100%;padding:13px;border-radius:12px;border:1px solid var(--line);background:var(--bg);color:var(--ink);font-size:16px}
+select.plain{width:100%;padding:13px;border-radius:12px;border:1px solid var(--line);background:var(--bg);color:var(--ink);font-size:16px}
+.tabs{position:fixed;bottom:0;left:0;right:0;max-width:520px;margin:0 auto;display:flex;background:var(--card);border-top:1px solid var(--line);padding:6px 6px calc(6px + env(safe-area-inset-bottom,0px))}
+.tabs button{flex:1;background:none;color:var(--mute);font-size:10px;font-weight:700;display:flex;flex-direction:column;align-items:center;gap:3px;padding:6px 0;border-radius:12px}
+.tabs button.on{color:var(--ink);background:var(--bg)}
+.tabs button.on svg{stroke:var(--acc)}
+.tabs svg{width:24px;height:24px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.bar{height:10px;border-radius:9px;background:var(--bg);overflow:hidden;margin-top:6px}
+.bar i{display:block;height:100%;border-radius:9px}
+.rw{display:flex;justify-content:space-between;align-items:center;gap:8px}
+.lad{display:flex;align-items:center;gap:12px;padding:11px 0;border-bottom:1px solid var(--line)}
+.lad:last-child{border:0}
+.dot{width:16px;height:16px;border-radius:50%;flex:none}
+.av{width:42px;height:42px;border-radius:50%;display:flex;align-items:center;justify-content:center;font:800 20px var(--f1);color:#14161f;flex:none}
+.muted{color:var(--mute);font-size:14px}
+.empty{color:var(--mute);text-align:center;padding:20px 0}
+.modal{position:fixed;inset:0;background:rgba(8,9,14,.78);display:flex;align-items:center;justify-content:center;padding:20px;z-index:20}
+.modal .card{margin:0;width:100%;max-width:400px;text-align:center}
+.grade{font:800 120px/1 var(--f1);color:var(--acc)}
+video{width:100%;border-radius:14px;margin-top:8px;background:#000}
+summary{font:800 20px var(--f1);cursor:pointer}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px}
+.ph img{width:100%;aspect-ratio:3/4;object-fit:cover;border-radius:14px;display:block;margin-bottom:6px;border:4px solid var(--fr,transparent)}
+.fx{position:fixed;top:-40px;z-index:30;pointer-events:none;animation:fall 2.6s linear forwards}
+@keyframes fall{to{transform:translateY(112vh) rotate(360deg)}}
+@media (prefers-reduced-motion:reduce){.fx{display:none}}
+textarea{width:100%;padding:13px;border-radius:12px;border:1px solid var(--line);background:var(--bg);color:var(--ink);font:inherit;font-size:16px}
+</style>
+</head>
+<body>
+<div id="app"></div>
+<div class="tabs" id="tabs"></div>
+<div id="md"></div>
+<script>
+var EX={Chest:["Bench Press","Incline Dumbbell Press","Chest Fly","Push-Up","Dips"],Back:["Deadlift","Barbell Row","Pull-Up","Lat Pulldown","Seated Cable Row"],Shoulders:["Overhead Press","Lateral Raise","Face Pull","Rear Delt Fly"],Biceps:["Barbell Curl","Dumbbell Curl","Hammer Curl"],Triceps:["Tricep Pushdown","Skull Crusher","Overhead Extension"],Legs:["Squat","Leg Press","Romanian Deadlift","Lunge","Leg Curl","Leg Extension","Calf Raise"],Core:["Cable Crunch","Hanging Leg Raise"]};
+var BASE={};Object.keys(EX).forEach(function(g){EX[g].forEach(function(e){BASE[e]=g})});
+var RANKS=[["Pre Cum",0,"#9aa3b5"],["Bronze Beater",500,"#cd7f32"],["Silver Stroker",1500,"#c9d1dc"],["Golden Gooner",3500,"#f5b83d"],["Emerald Edger",7000,"#2fd18b"],["Platinum Puller",12000,"#6fdcff"],["Grandmaster Baiter",20000,"#ff4fb0"]];
+var DAYS=["Sun","Mon","Tue","Wed","Thu","Fri","Sat"];
+var ICON=["<path d='M6 7v10M3 9v6M18 7v10M21 9v6M6 12h12'/>","<rect x='4' y='5' width='16' height='15' rx='2'/><path d='M4 10h16M9 3v4M15 3v4'/>","<circle cx='12' cy='12' r='9'/><path d='M12 7v5l3 2'/>","<circle cx='9' cy='9' r='3'/><path d='M3 20c0-3 3-5 6-5s6 2 6 5M17 6a3 3 0 010 6M21 19c0-2-1-4-3-4.5'/>","<path d='M8 4h8v5a4 4 0 01-8 0zM8 6H4v1a3 3 0 004 3M16 6h4v1a3 3 0 01-4 3M12 13v4M8 20h8'/>","<rect x='5' y='11' width='14' height='9' rx='2'/><path d='M8 11V8a4 4 0 018 0v3'/>","<ellipse cx='12' cy='13' rx='6' ry='8'/><path d='M9 9c2 1 4 1 6 0'/>"];
+var NAMES=["Workout","Plan","History","Friends","Rank","Lock","Nuts"];
+var S={unit:"lb",hist:[],cur:[],custom:{},routines:[],lock:{on:true,apps:[],need:10},prof:{bw:0,by:0,log:[]},rec:{},bumped:{},nuts:0,owned:{},bg:"none",freezes:0,boost:0,flair:"",hol:true,note:"",accent:"rank",frame:"none",fx:"",pass:"",dbl:0},T=0,last="Bench Press",W=45,R=8,rn="",draft=[],dd=[],clips=[],db=null;
+var DB=null,USER=null,ME=null,fr=[],stats={},pn={},hits=[],ft=null;
+try{var d0=JSON.parse(localStorage.getItem("ironlog"));if(d0){for(var k in d0)S[k]=d0[k]}}catch(e){}
+function save(){try{localStorage.setItem("ironlog",JSON.stringify(S))}catch(e){}}
+function esc(s){return String(s).replace(/[&<>"]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]})}
+function mg(ex){return BASE[ex]||S.custom[ex]||"Core"}
+function groups(){var g={};Object.keys(EX).forEach(function(k){g[k]=EX[k].slice()});Object.keys(S.custom).forEach(function(n){g[S.custom[n]].push(n)});return g}
+function opts(sel){var g=groups();return Object.keys(g).map(function(k){return '<optgroup label="'+k+'">'+g[k].map(function(e){return '<option'+(e===sel?' selected':'')+'>'+esc(e)+'</option>'}).join("")+'</optgroup>'}).join("")}
+function xp(s){return Math.round(s.w*s.r/10*(s.f||1))}
+function e1(s){return s.w*(1+s.r/30)}
+function rank(x,k){k=k||1;var i=0;RANKS.forEach(function(r,n){if(x>=r[1]/k)i=n});var a=RANKS[i][1]/k,b=RANKS[i+1]?RANKS[i+1][1]/k:null;return{i:i,name:RANKS[i][0],col:RANKS[i][2],pct:b?Math.min(100,(x-a)/(b-a)*100):100,next:b?RANKS[i+1][0]:null,need:b?Math.ceil(b-x):0}}
+function totals(){var t=0,m={};S.hist.forEach(function(w){w.sets.forEach(function(s){var v=xp(s);t+=v;m[mg(s.ex)]=(m[mg(s.ex)]||0)+v})});return{t:t,m:m}}
+function grade(x){return x>=1500?"S":x>=1000?"A":x>=600?"B":x>=300?"C":"D"}
+function best(ex){var b=0;S.hist.concat([{sets:S.cur}]).forEach(function(w){w.sets.forEach(function(s){if(s.ex===ex)b=Math.max(b,e1(s))})});return b}
+function dk(d){return d.getFullYear()+"-"+(d.getMonth()+1)+"-"+d.getDate()}
+function streaks(){var set={},d=new Date(),c=0,days=[];S.hist.forEach(function(w){var x=new Date(w.date);x.setHours(12,0,0,0);var k=dk(x);if(!set[k]){set[k]=1;days.push(x.getTime())}});
+var fz=S.frozen||{};if(!set[dk(d)])d.setDate(d.getDate()-1);while(set[dk(d)]||fz[dk(d)]){if(set[dk(d)])c++;d.setDate(d.getDate()-1)}
+var all=days.map(function(t){return[t,1]});Object.keys(fz).forEach(function(k){var q=k.split("-");all.push([new Date(+q[0],+q[1]-1,+q[2],12).getTime(),0])});all.sort(function(a,b){return a[0]-b[0]});var b=0,run=0,p=0;all.forEach(function(e){var t=e[0];run=(p&&Math.round((t-p)/864e5)===1)?run+e[1]:e[1];if(run>b)b=run;p=t});return{cur:c,best:b}}
+function tab(n){stopCrash();T=n;draw();window.scrollTo(0,0)}
+function stp(k,d){var el=document.getElementById(k),v=(parseFloat(el.value)||0)+d;if(v<0)v=0;el.value=v;if(k==="w")W=v;else R=v}
+function add(){var s={ex:last,w:W,r:Math.round(R),f:fx()};if(!(s.w>=0)||!(s.r>0)){alert("Set the reps first.");return}
+var b=best(last);if(b>0&&e1(s)>b)s.pr=1;S.cur.push(s);save();draw()}
+function del(i){S.cur.splice(i,1);save();draw()}
+function setUnit(u){S.unit=u;save();draw()}
+function pick(e){last=e;if(S.rec[e])W=S.rec[e];T=0;draw()}
+function addCustom(){var n=document.getElementById("cn").value.trim(),g=document.getElementById("cg").value;if(!n){alert("Name your exercise first.");return}
+if(BASE[n]||S.custom[n]){alert("That exercise already exists.");return}S.custom[n]=g;last=n;save();draw()}
+function addDraft(){var e=document.getElementById("rx").value;if(draft.indexOf(e)<0)draft.push(e);draw()}
+function togDay(i){var p=dd.indexOf(i);if(p<0)dd.push(i);else dd.splice(p,1);draw()}
+function saveRt(){if(!rn.trim()||!draft.length){alert("Give the routine a name and add at least one exercise.");return}
+S.routines.push({name:rn.trim(),ex:draft,days:dd});rn="";draft=[];dd=[];save();draw()}
+function delRt(i){S.routines.splice(i,1);save();draw()}
+function idb(cb){try{var q=indexedDB.open("ironlog",1);q.onupgradeneeded=function(){q.result.createObjectStore("c",{keyPath:"id"})};
+q.onsuccess=function(){db=q.result;try{db.transaction("c").objectStore("c").getAll().onsuccess=function(e){clips=e.target.result.sort(function(a,b){return b.id-a.id});cb()}}catch(x){cb()}};q.onerror=cb}catch(e){cb()}}
+function rec(inp){var f=inp.files[0];if(!f)return;var r={id:Date.now(),ex:last,date:new Date().toISOString(),blob:f};clips.unshift(r);
+try{db.transaction("c","readwrite").objectStore("c").put(r)}catch(e){}T=2;draw()}
+function delClip(id){clips=clips.filter(function(c){return c.id!==id});try{db.transaction("c","readwrite").objectStore("c").delete(id)}catch(e){}draw()}
+function finish(){if(!S.cur.length)return;var before=rank(totals().t).name,sets=S.cur,x=0,m={},prs=0;
+sets.forEach(function(s){var v=xp(s);x+=v;m[mg(s.ex)]=(m[mg(s.ex)]||0)+v;if(s.pr)prs++});
+S.hist.unshift({date:new Date().toISOString(),sets:sets});S.cur=[];seedRec(sets);S.boost=0;var bm=weekBump();save();sync();
+var rr=rank(totals().t),g=grade(x),st=streaks().cur;var nt=(10+Math.floor(x/25)+5*prs+Math.min(st,10))*(S.dbl?2:1);S.dbl=0;S.nuts=(S.nuts||0)+nt;save();
+var rows=Object.keys(m).map(function(k){return '<div class="rw set"><span>'+k+'</span><b>+'+m[k]+' XP</b></div>'}).join("");
+document.getElementById("md").innerHTML='<div class="modal"><div class="card"><div class="muted">Workout grade</div><div class="grade">'+g+'</div><h2 style="font-size:32px">'+x+' XP earned</h2><div class="muted">'+sets.length+' sets'+(prs?' · '+prs+' new PR'+(prs>1?'s':''):'')+' · '+st+' day streak</div>'+(S.lock.on&&S.lock.apps.length?'<div class="muted" style="margin-top:6px">'+(unlocked()?'Your locked apps are open until midnight.':(S.lock.need-doneToday())+' more sets to unlock your apps.')+'</div>':'')+rows+'<div class="rname" style="margin-top:16px">'+(before===rr.name?rr.name:before+' to '+rr.name)+'</div>'+'<div class="rname" style="font-size:28px;margin-top:10px">+'+nt+' nuts</div>'+bm+'<label class="btn ghost" style="font-size:18px">Add a progress photo<input type="file" accept="image/*" hidden onchange="addPhoto(this)"></label><button class="btn" onclick="document.getElementById(\'md\').innerHTML=\'\';tab(4)">See my rank</button></div></div>';fxRain();draw()}
+var PRE=["Instagram","TikTok","YouTube","Snapchat","X","Facebook","Reddit","Discord","Netflix","Twitch","Roblox","Fortnite","Minecraft","Call of Duty"];
+function doneToday(){var n=0,k=dk(new Date());S.hist.forEach(function(w){if(dk(new Date(w.date))===k)n+=w.sets.length});return n}
+function unlocked(){return !S.lock.on||doneToday()>=S.lock.need||S.pass===dk(new Date())}
+function togApp(a){var i=S.lock.apps.indexOf(a);if(i<0)S.lock.apps.push(a);else S.lock.apps.splice(i,1);save();draw()}
+function addApp(){var n=document.getElementById("la").value.trim();if(!n)return;if(S.lock.apps.indexOf(n)<0)S.lock.apps.push(n);save();draw()}
+function setNeed(n){S.lock.need=n;save();draw()}
+function togLock(){S.lock.on=!S.lock.on;save();draw()}
+function age(){return S.prof.by?new Date().getFullYear()-S.prof.by:0}
+function bwShow(lb){return S.unit==="kg"?Math.round(lb/2.2046*10)/10:Math.round(lb*10)/10}
+function fac(){var p=S.prof;if(!p.bw||!p.by)return 1;var b=Math.min(1.6,Math.max(.6,Math.pow(180/p.bw,.66))),a=age(),g=a<20?1+(20-a)*.02:a>35?Math.min(1.8,1+(a-35)*.012):1;return Math.round(b*g*1000)/1000}
+function needWeigh(){var p=S.prof;if(!p.bw||!p.by)return"setup";var l=p.log.length?p.log[p.log.length-1].date:null;return(!l||Date.now()-new Date(l).getTime()>30*864e5)?"monthly":""}
+function weighModal(mode){var p=S.prof,su=mode==="setup";document.getElementById("md").innerHTML='<div class="modal"><div class="card" style="text-align:left"><h3>'+(su?'Your stats':'Monthly weigh-in')+'</h3><p class="muted">'+(su?'Your rank is judged on your weight and age, so lighter and older lifters get a fair shot. This stays on your phone.':'It has been a month. Step on the scale and enter your weight so your rank stays accurate.')+'</p><span class="lbl">Weight ('+S.unit+')</span><input id="pw" type="text" inputmode="decimal" value="'+(p.bw?bwShow(p.bw):'')+'">'+(su?'<span class="lbl" style="margin-top:10px">Age</span><input id="pa" type="text" inputmode="numeric" value="'+(p.by?age():'')+'">':'')+'<button class="btn" onclick="saveProf()">SAVE</button><button class="btn ghost" onclick="document.getElementById(\'md\').innerHTML=\'\'">Not now</button></div></div>'}
+function saveProf(){var w=parseFloat(document.getElementById("pw").value),ae=document.getElementById("pa"),a=ae?parseInt(ae.value,10):0;if(!(w>20)||(ae&&!(a>=10&&a<=99))){alert("Enter a real weight"+(ae?" and an age from 10 to 99":"")+".");return}var lb=S.unit==="kg"?w*2.2046:w;S.prof.bw=lb;if(ae)S.prof.by=new Date().getFullYear()-a;S.prof.log.push({date:new Date().toISOString(),bw:lb});save();document.getElementById("md").innerHTML="";draw()}
+var pend=null,pe=0,imp="";
+function of(k){return clips.filter(function(c){return(c.kind||"clip")===k})}
+function put(r){try{db.transaction("c","readwrite").objectStore("c").put(r)}catch(e){}}
+function closeMd(){document.getElementById("md").innerHTML=""}
+function selEx(v){last=v;if(S.rec[v])W=S.rec[v];draw()}
+function seedRec(sets){sets.forEach(function(s){if(!S.rec[s.ex]){var m=0;sets.forEach(function(t){if(t.ex===s.ex&&t.w>m)m=t.w});S.rec[s.ex]=m}})}
+function wk(d){var x=new Date(d);x.setHours(12,0,0,0);x.setDate(x.getDate()-(x.getDay()+6)%7);return dk(x)}
+function weekBump(){var cur=wk(new Date()),inc=S.unit==="kg"?2.5:5,out=[],did={};S.routines.forEach(function(r){if(!r.days.length)return;var key=r.name+"|"+cur;if(S.bumped[key])return;var days={};S.hist.forEach(function(w){if(wk(w.date)!==cur)return;var have={};w.sets.forEach(function(s){have[s.ex]=1});if(r.ex.every(function(e){return have[e]}))days[dk(new Date(w.date))]=1});
+if(Object.keys(days).length>=r.days.length){S.bumped[key]=1;r.ex.forEach(function(e){if(!did[e]){did[e]=1;S.rec[e]=(S.rec[e]||0)+inc}});out.push(r.name)}});save();return out.length?'<div class="card" style="margin:12px 0 0;border-color:var(--acc)"><b>Week complete: '+out.map(esc).join(", ")+'</b><div class="muted">Recommended weights go up '+inc+' '+S.unit+' for next week.</div></div>':''}
+function shrink(f,max,cb){var rd=new FileReader();rd.onload=function(){var im=new Image();im.onload=function(){var s=Math.min(1,max/Math.max(im.width,im.height)),c=document.createElement("canvas");c.width=Math.round(im.width*s);c.height=Math.round(im.height*s);c.getContext("2d").drawImage(im,0,0,c.width,c.height);cb(c.toDataURL("image/jpeg",.82))};im.onerror=function(){cb(rd.result)};im.src=rd.result};rd.onerror=function(){cb("")};rd.readAsDataURL(f)}
+function dataToBlob(u){var p=u.split(","),bin=atob(p[1]),a=new Uint8Array(bin.length);for(var i=0;i<bin.length;i++)a[i]=bin.charCodeAt(i);return new Blob([a],{type:"image/jpeg"})}
+function addPhoto(inp){var f=inp.files[0];inp.value="";if(!f)return;shrink(f,1100,function(u){if(!u)return;pend={id:Date.now(),kind:"photo",date:new Date().toISOString(),url:u,note:""};photoModal(0)})}
+function photoModal(id){var c=id?clips.filter(function(x){return x.id===id})[0]:pend;if(!c)return;pe=id||0;document.getElementById("md").innerHTML='<div class="modal"><div class="card" style="text-align:left;max-height:92vh;overflow:auto"><h3>Progress photo</h3><img src="'+c.url+'" style="width:100%;border-radius:14px;margin-top:10px;max-height:44vh;object-fit:cover" alt="Progress photo"><span class="lbl" style="margin-top:10px">Comment</span><textarea id="pc" rows="3" placeholder="How did it feel? Any notes?">'+esc(c.note||"")+'</textarea><button class="btn" onclick="savePhoto()">SAVE</button><button class="btn ghost" onclick="closeMd()">'+(id?'Close':'Discard')+'</button>'+(id?'<button class="btn ghost" onclick="delClip('+id+');closeMd()">Delete photo</button>':'')+'</div></div>'}
+function savePhoto(){var c=pe?clips.filter(function(x){return x.id===pe})[0]:pend;if(!c)return;c.note=document.getElementById("pc").value.trim();if(!pe){clips.unshift(c);pend=null}put(c);closeMd();T=2;draw()}
+function photoCard(){var ph=of("photo");return '<div class="card"><h3>Progress photos</h3><label class="btn" style="font-size:18px">Add a photo<input type="file" accept="image/*" hidden onchange="addPhoto(this)"></label>'+(ph.length?'<div class="grid">'+ph.map(function(c){return '<div class="ph"><img src="'+c.url+'" alt="Progress photo"><div class="muted">'+new Date(c.date).toLocaleDateString()+'</div><button class="x" style="padding:0;font-size:14px;text-align:left;color:var(--ink)" onclick="photoModal('+c.id+')">'+(c.note?esc(c.note):'Add a comment')+'</button></div>'}).join("")+'</div>':'<div class="empty">Photos you add after a workout show up here.</div>')+'</div>'}
+function matchEx(n){var l=n.trim().toLowerCase(),g=groups(),f=null;Object.keys(g).forEach(function(k){g[k].forEach(function(e){if(e.toLowerCase()===l)f=e})});return f}
+function importPic(inp){var f=inp.files[0];inp.value="";if(!f)return;imp="Reading your routine...";draw();
+shrink(f,1600,function(u){if(!u){imp="I couldn’t open that picture.";draw();return}var r={id:Date.now(),kind:"rpic",date:new Date().toISOString(),url:u};clips.unshift(r);put(r);
+if(!window.claude||!claude.use){imp="Saved the picture. Reading it works from the shared link.";draw();return}
+claude.use("sample").then(function(sm){if(!sm){imp="Saved the picture, but automatic reading is unavailable here. Add the exercises by hand below.";draw();return}
+return sm.json('Read this workout routine picture. Return ONLY JSON like {"name":"Push day","exercises":[{"name":"Bench Press","group":"Chest","weight":135}]}. group must be one of: '+Object.keys(EX).join(", ")+'. Use common exercise names. weight is the working weight shown as a number, or null if none is shown.',{images:[dataToBlob(u)],cache:false}).then(function(j){
+var ex=((j&&j.exercises)||[]).filter(function(e){return e&&e.name});if(!ex.length){imp="I couldn’t find exercises in that picture. Try a clearer photo.";draw();return}
+draft=[];ex.forEach(function(e){var n=matchEx(e.name);if(!n){n=String(e.name).trim();S.custom[n]=EX[e.group]?e.group:"Core"}if(draft.indexOf(n)<0)draft.push(n);if(e.weight>0)S.rec[n]=e.weight});
+rn=j.name||"My routine";save();imp="Imported "+draft.length+" exercises. Pick your days below and save the routine.";draw()})}).catch(function(){imp="Saved the picture, but I couldn’t read it. Add the exercises by hand below.";draw()})})}
+var BGS=[["none","Plain",0,""],["dusk","Dusk",120,"linear-gradient(170deg,rgba(90,70,255,.38),rgba(255,80,150,.22) 55%,transparent)"],["forest","Forest",150,"linear-gradient(170deg,rgba(30,200,120,.32),rgba(20,90,70,.25) 60%,transparent)"],["ember","Ember",200,"linear-gradient(170deg,rgba(255,110,40,.38),rgba(200,30,60,.25) 60%,transparent)"],["ocean","Deep Ocean",250,"linear-gradient(170deg,rgba(40,170,255,.35),rgba(20,50,160,.3) 60%,transparent)"],["gold","Gold Plate",400,"linear-gradient(170deg,rgba(255,200,60,.42),rgba(255,140,30,.22) 55%,transparent)"],["aurora","Aurora",300,"linear-gradient(170deg,rgba(60,255,170,.34),rgba(140,80,255,.34) 60%,transparent)"],["cherry","Cherry Blossom",300,"linear-gradient(170deg,rgba(255,150,190,.42),rgba(255,230,240,.18) 60%,transparent)"],["storm","Storm",350,"linear-gradient(170deg,rgba(120,140,170,.45),rgba(40,50,90,.35) 60%,transparent)"],["neon","Neon City",500,"linear-gradient(170deg,rgba(255,40,200,.4),rgba(40,230,255,.34) 60%,transparent)"]];
+var ACC=[["rank","Rank color",0,""],["blue","Electric Blue",150,"#3d8bff"],["pink","Hot Pink",150,"#ff4fa8"],["lime","Lime",150,"#a6e22e"],["violet","Violet",150,"#a77bff"],["coral","Coral",150,"#ff6f5e"]];
+var FR=[["none","No frame",0,""],["gold","Gold",100,"#f5b83d"],["neon","Neon green",100,"#39ff88"],["pink","Hot pink",100,"#ff4fb0"],["chrome","Chrome",100,"#c9d1dc"]];
+var FXS=[["🎉","Confetti"],["🔥","Fire"],["🥜","Nut shower"],["⭐","Stars"]];
+function curBg(){var b=BGS.filter(function(x){return x[0]===S.bg})[0];return b&&b[3]}
+function fx(){return Math.round(fac()*(S.boost?1.25:1)*1000)/1000}
+function clrNote(){S.note="";save();draw()}
+function spend(c){if((S.nuts||0)<c){S.note="Not enough nuts yet. Finish workouts to earn more.";draw();return false}S.nuts-=c;return true}
+function buyBg(id){var b=BGS.filter(function(x){return x[0]===id})[0];if(!S.owned["bg"+id]&&b[2]>0){if(!spend(b[2]))return;S.owned["bg"+id]=1}S.bg=id;save();draw()}
+function buyFreeze(){if(S.freezes>=3){S.note="You can hold up to 3 streak freezes.";draw();return}if(!spend(200))return;S.freezes++;save();draw()}
+function buyBoost(){if(S.boost){S.note="An XP boost is already active for your next workout.";draw();return}if(!spend(120))return;S.boost=1;save();draw()}
+function buyFlair(f){if(!S.owned["fl"+f]){if(!spend(100))return;S.owned["fl"+f]=1}S.flair=S.flair===f?"":f;save();sync();draw()}
+function togHol(){S.hol=!S.hol;save();draw()}
+function easter(y){var a=y%19,b=Math.floor(y/100),c=y%100,d=Math.floor(b/4),e=b%4,f=Math.floor((b+8)/25),g=Math.floor((b-f+1)/3),h=(19*a+b-d-g+15)%30,i=Math.floor(c/4),k=c%4,l=(32+2*e+2*i-h-k)%7,m=Math.floor((a+11*h+22*l)/451),mo=Math.floor((h+l-7*m+114)/31),da=((h+l-7*m+114)%31)+1;return new Date(y,mo-1,da,12)}
+function holAll(){var t=new Date();t.setHours(12,0,0,0);var Y0=t.getFullYear(),out=[];[Y0,Y0+1].forEach(function(Y){var tg=new Date(Y,10,1,12),tk=new Date(Y,10,1+(4-tg.getDay()+7)%7+21,12);
+[["New Year's Day",new Date(Y,0,1,12),"🎆","#ffd34d","linear-gradient(170deg,rgba(255,211,77,.4),rgba(120,90,255,.25) 60%,transparent)"],["Valentine's Day",new Date(Y,1,14,12),"💘","#ff4f8b","linear-gradient(170deg,rgba(255,79,139,.4),rgba(255,160,190,.2) 60%,transparent)"],["St. Patrick's Day",new Date(Y,2,17,12),"☘️","#2fd18b","linear-gradient(170deg,rgba(47,209,139,.4),rgba(255,210,60,.18) 60%,transparent)"],["Easter",easter(Y),"🐣","#b79cff","linear-gradient(170deg,rgba(183,156,255,.4),rgba(255,230,120,.2) 60%,transparent)"],["Independence Day",new Date(Y,6,4,12),"🎇","#4d7cff","linear-gradient(170deg,rgba(255,60,60,.32),rgba(60,90,255,.34) 60%,transparent)"],["Halloween",new Date(Y,9,31,12),"🎃","#ff8a1f","linear-gradient(170deg,rgba(255,138,31,.4),rgba(110,40,180,.32) 60%,transparent)"],["Thanksgiving",tk,"🦃","#e8892b","linear-gradient(170deg,rgba(232,137,43,.4),rgba(150,70,30,.28) 60%,transparent)"],["Christmas",new Date(Y,11,25,12),"🎄","#e8334a","linear-gradient(170deg,rgba(232,51,74,.36),rgba(30,160,90,.3) 60%,transparent)"]].forEach(function(h){out.push({n:h[0],e:h[2],acc:h[3],hg:h[4],diff:Math.round((h[1]-t)/864e5)})})});
+return out.filter(function(h){return h.diff>=0}).sort(function(a,b){return a.diff-b.diff})}
+function holiday(){if(!S.hol)return null;var h=holAll().filter(function(x){return x.diff<=7})[0];if(!h)return null;h.left=h.diff===0?"Today is the day. The theme ends tonight.":h.diff+" day"+(h.diff===1?"":"s")+" to go. The theme ends after the holiday.";return h}
+function applyFreeze(){if(!S.freezes||!S.hist.length)return;var set={},last=null;S.frozen=S.frozen||{};S.hist.forEach(function(w){var d=new Date(w.date);d.setHours(12,0,0,0);set[dk(d)]=1;if(!last||d>last)last=d});
+var y=new Date();y.setHours(12,0,0,0);y.setDate(y.getDate()-1);var gap=[],d=new Date(last);d.setDate(d.getDate()+1);
+while(d<=y){var k=dk(d);if(!set[k]&&!S.frozen[k])gap.push(k);d=new Date(d);d.setDate(d.getDate()+1)}
+if(gap.length&&gap.length<=S.freezes){gap.forEach(function(k){S.frozen[k]=1});S.freezes-=gap.length;S.note="A streak freeze covered "+gap.length+" missed day"+(gap.length>1?"s":"")+". Your streak is safe.";save()}}
+function accOv(){var a=ACC.filter(function(x){return x[0]===S.accent})[0];return a&&a[3]}
+function frCol(){var a=FR.filter(function(x){return x[0]===S.frame})[0];return a&&a[3]}
+function buyAcc(id){var a=ACC.filter(function(x){return x[0]===id})[0];if(a[2]>0&&!S.owned["ac"+id]){if(!spend(a[2]))return;S.owned["ac"+id]=1}S.accent=id;save();draw()}
+function buyFrame(id){var a=FR.filter(function(x){return x[0]===id})[0];if(a[2]>0&&!S.owned["fr"+id]){if(!spend(a[2]))return;S.owned["fr"+id]=1}S.frame=id;save();draw()}
+function buyFx(e){if(!S.owned["fx"+e]){if(!spend(150))return;S.owned["fx"+e]=1}S.fx=S.fx===e?"":e;save();draw()}
+function buyDbl(){if(S.dbl){S.note="A nut doubler is already active for your next workout.";draw();return}if(!spend(150))return;S.dbl=1;save();draw()}
+function buyPass(){if(S.pass===dk(new Date())){S.note="Your day pass is already active.";draw();return}if(!spend(250))return;S.pass=dk(new Date());save();draw()}
+function fxRain(){if(!S.fx)return;var h="";for(var i=0;i<28;i++)h+='<span class="fx" style="left:'+Math.round(Math.random()*96)+'%;animation-delay:'+(Math.random()*1.6).toFixed(2)+'s;font-size:'+(18+Math.round(Math.random()*18))+'px">'+S.fx+'</span>';document.getElementById("md").insertAdjacentHTML("beforeend",h)}
+var NT=0,GM="bj",BETV=25,PK=[],BJ={st:"idle"},RL={sel:"red",num:7,spin:false,res:-1,msg:""},CR={on:false,m:1,msg:""},VP={st:"idle"},TH={st:"idle"};
+var GAMES=[["bj","Blackjack"],["rl","Roulette"],["cr","Crash"],["vp","Video poker"],["th","Hold’em"],["pk","Card packs"]];
+var RED=[1,3,5,7,9,12,14,16,18,19,21,23,25,27,30,32,34,36];
+var RLO=[["red","Red",2],["black","Black",2],["odd","Odd",2],["even","Even",2],["low","1-18",2],["high","19-36",2],["d1","1-12",3],["d2","13-24",3],["d3","25-36",3],["zero","Green 0",36],["num","Number",36]];
+var CATN=["High card","Pair","Two pair","Three of a kind","Straight","Flush","Full house","Four of a kind","Straight flush"];
+var RAR=[["Common","#9aa3b5",6],["Rare","#4d9bff",20],["Epic","#b06bff",60],["Legendary","#ffb82e",200]];
+var CARDS=[["🧴","Water Bottle",0],["🎧","Gym Headphones",0],["🧦","Gym Socks",0],["🧤","Lifting Gloves",0],["🥤","Pre-Workout",0],["🍌","Banana",0],["🥚","Egg Whites",0],["🥛","Protein Shake",0],["🪞","Gym Mirror",0],["🏃","Treadmill",0],["🚴","Spin Bike",0],["🧘","Foam Roller",0],["🎽","Tank Top",0],["⏱️","Rest Timer",0],["🏋️","Barbell",1],["🔩","Plate Stack",1],["🥋","Lifting Belt",1],["🩳","Squat Shorts",1],["🍗","Chicken and Rice",1],["🧊","Ice Bath",1],["📈","Progressive Overload",1],["🛌","Sleep Gains",1],["🦵","Leg Day",1],["💥","The Pump",1],["🦍","Silverback",2],["🐂","Raging Bull",2],["🧠","Mind-Muscle",2],["⚡","Pre-Workout Surge",2],["🏆","Meet Day",2],["🦾","Iron Arm",2],["🐐","The GOAT",3],["👑","Squat King",3],["🌋","1000 lb Club",3],["🥜","The Golden Nut",3]];
+function ok18(){return age()>=18}
+function nutBar(){return '<div class="chips" style="margin:14px 16px 0"><button class="chip'+(NT===0?' on':'')+'" onclick="setNT(0)">Shop</button><button class="chip'+(NT===1?' on':'')+'" onclick="setNT(1)">Casino</button></div>'}
+function setNT(n){stopCrash();NT=n;draw()}
+function setGm(g){stopCrash();GM=g;draw()}
+function setBet(n){BETV=n;draw()}
+function wsetup(){weighModal("setup")}
+function canBet(){if(!ok18())return false;if(BETV>(S.nuts||0)){S.note="Not enough nuts for that bet. Finish workouts to earn more.";draw();return false}return true}
+function rk(v){return v>10?"JQKA".charAt(v-11):v}
+function mkDeck(){var d=[];["♠","♥","♦","♣"].forEach(function(s){for(var v=2;v<=14;v++)d.push({v:v,s:s})});for(var i=d.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1)),t=d[i];d[i]=d[j];d[j]=t}return d}
+function hand(a,hide){return a.map(function(c,i){return(hide&&i===1)?'<span class="pc back">?</span>':'<span class="pc'+(c.s==="♥"||c.s==="♦"?' r':'')+'">'+rk(c.v)+c.s+'</span>'}).join("")}
+function betRow(lock){return lock?'<div class="muted" style="margin-top:8px">Bet: '+BETV+' nuts</div>':'<div class="chips">'+[10,25,50,100,250].map(function(n){return '<button class="chip'+(BETV===n?' on':'')+'" onclick="setBet('+n+')">'+n+'</button>'}).join("")+'</div>'}
+function sc5(c){var v=c.map(function(x){return x.v}).sort(function(a,b){return b-a}),cnt={};v.forEach(function(x){cnt[x]=(cnt[x]||0)+1});var g=Object.keys(cnt).map(Number).sort(function(a,b){return cnt[b]-cnt[a]||b-a}),tie=[];g.forEach(function(x){for(var i=0;i<cnt[x];i++)tie.push(x)});var fl=c.every(function(x){return x.s===c[0].s}),wh=v[0]===14&&v[1]===5&&g.length===5&&v[4]===2,st=g.length===5&&(v[0]-v[4]===4||wh),pv=cnt[g[0]]===2?g[0]:0;if(wh)tie=[5,4,3,2,1];
+var cat=st&&fl?8:cnt[g[0]]===4?7:cnt[g[0]]===3&&cnt[g[1]]===2?6:fl?5:st?4:cnt[g[0]]===3?3:cnt[g[0]]===2&&cnt[g[1]]===2?2:cnt[g[0]]===2?1:0,s=cat;tie.forEach(function(x){s=s*15+x});return{s:s,cat:cat,pv:pv,roy:st&&fl&&v[0]===14&&v[4]===10}}
+function best7(c){var b=null;for(var x=0;x<7;x++)for(var y=x+1;y<7;y++){var e=sc5(c.filter(function(q,i){return i!==x&&i!==y}));if(!b||e.s>b.s)b=e}return b}
+function stopCrash(){if(CR.on)crOut()}
+/* blackjack */
+function bjv(h){var t=0,a=0;h.forEach(function(c){t+=c.v>=14?11:c.v>10?10:c.v;if(c.v===14)a++});while(t>21&&a>0){t-=10;a--}return t}
+function bjDeal(){if(BJ.st==="play"||!canBet())return;S.nuts-=BETV;var d=mkDeck();BJ={st:"play",d:d,p:[d.pop(),d.pop()],h:[d.pop(),d.pop()],bet:BETV,msg:""};if(bjv(BJ.p)===21)bjEnd();save();draw()}
+function bjEnd(){var b=BJ,pv=bjv(b.p),nat=b.p.length===2&&pv===21&&!b.dbl,ret=0,m;if(pv>21){m="Bust. You lose."}else{while(bjv(b.h)<17)b.h.push(b.d.pop());var dv=bjv(b.h),dn=b.h.length===2&&dv===21;if(nat){ret=dn?b.bet:Math.floor(b.bet*2.5);m=dn?"Both have blackjack. Push.":"Blackjack! Pays 3 to 2."}else if(dv>21||pv>dv){ret=b.bet*2;m="You win."}else if(pv===dv){ret=b.bet;m="Push."}else m="Dealer wins."}
+S.nuts+=ret;b.st="done";var net=ret-b.bet;b.msg=m+(net>0?" +"+net+" nuts":net<0?" "+net+" nuts":"");save()}
+function bjHit(){BJ.p.push(BJ.d.pop());if(bjv(BJ.p)>=21)bjEnd();draw()}
+function bjStand(){bjEnd();draw()}
+function bjDouble(){var b=BJ;if(b.p.length!==2||S.nuts<b.bet)return;S.nuts-=b.bet;b.bet*=2;b.dbl=1;b.p.push(b.d.pop());bjEnd();draw()}
+function bjHtml(){var b=BJ,pl=b.st==="play",s='<div class="card"><h3>Blackjack</h3><p class="muted">Beat the dealer to 21. Dealer stands on 17. Blackjack pays 3 to 2.</p>';
+if(b.st==="idle")s+=betRow(false)+'<button class="btn" onclick="bjDeal()">DEAL · '+BETV+'</button>';
+else{s+='<div class="muted" style="margin-top:8px">Dealer'+(pl?'':' · '+bjv(b.h))+'</div>'+hand(b.h,pl)+'<div class="muted" style="margin-top:8px">You · '+bjv(b.p)+'</div>'+hand(b.p,false);
+if(pl)s+='<div class="row2"><button class="btn" onclick="bjHit()">Hit</button><button class="btn ghost" onclick="bjStand()">Stand</button>'+(b.p.length===2&&S.nuts>=b.bet?'<button class="btn ghost" onclick="bjDouble()">Double</button>':'')+'</div>';
+else s+='<p style="font-weight:700">'+b.msg+'</p>'+betRow(false)+'<button class="btn" onclick="bjDeal()">DEAL AGAIN · '+BETV+'</button>'}
+return s+'</div>'}
+/* roulette */
+function rlSel(s){RL.sel=s;draw()}
+function rlWin(s,n,p){if(n===0)return s==="zero"||(s==="num"&&p===0);var red=RED.indexOf(n)>=0;return s==="red"?red:s==="black"?!red:s==="odd"?n%2===1:s==="even"?n%2===0:s==="low"?n<=18:s==="high"?n>=19:s==="d1"?n<=12:s==="d2"?(n>=13&&n<=24):s==="d3"?n>=25:s==="num"?n===p:false}
+function rlSpin(){if(RL.spin)return;if(RL.sel==="num"&&!(RL.num>=0&&RL.num<=36)){S.note="Pick a number from 0 to 36.";draw();return}if(!canBet())return;S.nuts-=BETV;save();RL.spin=true;RL.msg="";var bet=BETV,sel=RL.sel,pick=RL.num,n=Math.floor(Math.random()*37),t=0;
+var iv=setInterval(function(){t++;var el=document.getElementById("rlb");if(el)el.textContent=Math.floor(Math.random()*37);if(t>14){clearInterval(iv);RL.spin=false;RL.res=n;var o=RLO.filter(function(x){return x[0]===sel})[0],w=rlWin(sel,n,pick),ret=w?bet*o[2]:0;S.nuts+=ret;save();RL.msg=n+" ("+(n===0?"green":RED.indexOf(n)>=0?"red":"black")+"). "+(w?"You win +"+(ret-bet)+" nuts":"You lose "+bet+" nuts");draw()}},90);draw()}
+function rlHtml(){var o=RLO.filter(function(x){return x[0]===RL.sel})[0];return '<div class="card"><h3>Roulette</h3><p class="muted">European wheel, one green zero.</p><div class="chips">'+RLO.map(function(x){return '<button class="chip'+(RL.sel===x[0]?' on':'')+'" data-s="'+x[0]+'" onclick="rlSel(this.dataset.s)">'+x[1]+'</button>'}).join("")+'</div><div class="muted" style="margin-top:8px">Pays '+(o[2]-1)+' to 1</div>'+(RL.sel==="num"?'<input type="text" inputmode="numeric" style="margin-top:10px" placeholder="Number 0-36" value="'+RL.num+'" oninput="RL.num=parseInt(this.value,10)">':'')+'<div class="f1" id="rlb" style="font-size:72px;text-align:center;margin-top:10px">'+(RL.res>=0?RL.res:'-')+'</div><p style="font-weight:700;text-align:center">'+RL.msg+'</p>'+betRow(RL.spin)+'<button class="btn" onclick="rlSpin()">SPIN · '+BETV+'</button></div>'}
+/* crash */
+function crStart(){if(CR.on||!canBet())return;S.nuts-=BETV;save();var u=Math.random(),cp=Math.min(200,Math.max(1,Math.floor(0.99/(1-u)*100)/100));CR={on:true,m:1,bet:BETV,cp:cp,t0:Date.now(),msg:""};CR.iv=setInterval(crTick,50);draw()}
+function crTick(){var m=Math.exp(0.00012*(Date.now()-CR.t0));if(m>=CR.cp){clearInterval(CR.iv);CR.on=false;CR.m=CR.cp;CR.msg="Crashed at "+CR.cp.toFixed(2)+"x. You lost "+CR.bet+" nuts.";draw();return}CR.m=m;var el=document.getElementById("cm");if(el)el.textContent=m.toFixed(2)+"x"}
+function crOut(){if(!CR.on)return;var m=Math.exp(0.00012*(Date.now()-CR.t0));if(m>=CR.cp){crTick();return}clearInterval(CR.iv);CR.on=false;CR.m=m;var ret=Math.floor(CR.bet*m);S.nuts+=ret;save();CR.msg="Cashed out at "+m.toFixed(2)+"x. "+(ret>=CR.bet?"+":"")+(ret-CR.bet)+" nuts.";draw()}
+function crHtml(){return '<div class="card"><h3>Crash</h3><p class="muted">The multiplier climbs until it crashes. Cash out before it does.</p><div class="f1" id="cm" style="font-size:72px;text-align:center;color:'+(CR.on?'var(--acc)':'var(--ink)')+'">'+CR.m.toFixed(2)+'x</div>'+(CR.msg?'<p style="font-weight:700;text-align:center">'+CR.msg+'</p>':'')+betRow(CR.on)+(CR.on?'<button class="btn" style="background:#ff4d3d;color:#fff" onclick="crOut()">CASH OUT</button>':'<button class="btn" onclick="crStart()">START · '+BETV+'</button>')+'</div>'}
+/* video poker */
+function vpMult(e){return e.roy?250:e.cat===8?50:e.cat===7?25:e.cat===6?9:e.cat===5?6:e.cat===4?4:e.cat===3?3:e.cat===2?2:(e.cat===1&&e.pv>=11)?1:0}
+function vpDeal(){if(VP.st==="hold"||!canBet())return;S.nuts-=BETV;var d=mkDeck();VP={st:"hold",d:d,h:[d.pop(),d.pop(),d.pop(),d.pop(),d.pop()],k:[0,0,0,0,0],bet:BETV,msg:""};save();draw()}
+function vpHold(i){VP.k[i]=VP.k[i]?0:1;draw()}
+function vpDraw(){for(var i=0;i<5;i++)if(!VP.k[i])VP.h[i]=VP.d.pop();var e=sc5(VP.h),m=vpMult(e),ret=VP.bet*m;S.nuts+=ret;VP.st="done";VP.msg=(e.roy?"Royal flush":CATN[e.cat])+(m?". Pays "+m+" to 1":". No win")+" ("+(ret-VP.bet>=0?"+":"")+(ret-VP.bet)+" nuts)";save();draw()}
+function vpHtml(){var s='<div class="card"><h3>Video poker</h3><p class="muted">Jacks or better. Hold cards, draw once. Pays: jacks+ 1, two pair 2, trips 3, straight 4, flush 6, full house 9, quads 25, straight flush 50, royal 250.</p>';
+if(VP.st==="idle")s+=betRow(false)+'<button class="btn" onclick="vpDeal()">DEAL · '+BETV+'</button>';
+else{s+=VP.h.map(function(c,i){return '<button class="pc'+(c.s==="♥"||c.s==="♦"?' r':'')+(VP.k[i]&&VP.st==="hold"?' hold':'')+'" '+(VP.st==="hold"?'onclick="vpHold('+i+')"':'disabled')+'>'+rk(c.v)+c.s+'</button>'}).join("");
+if(VP.st==="hold")s+='<div class="muted" style="margin-top:10px">Tap cards to hold, then draw.</div><button class="btn" onclick="vpDraw()">DRAW</button>';
+else s+='<p style="font-weight:700">'+VP.msg+'</p>'+betRow(false)+'<button class="btn" onclick="vpDeal()">DEAL AGAIN · '+BETV+'</button>'}
+return s+'</div>'}
+/* holdem */
+function thDeal(){if(TH.st==="flop"||!canBet())return;S.nuts-=BETV;var d=mkDeck();TH={st:"flop",d:d,p:[d.pop(),d.pop()],h:[d.pop(),d.pop()],b:[d.pop(),d.pop(),d.pop()],ante:BETV,msg:""};save();draw()}
+function thFold(){TH.st="done";TH.msg="You folded and lost your ante of "+TH.ante+" nuts.";draw()}
+function thCall(){var t=TH,raise=t.ante*2;if(S.nuts<raise){S.note="You need "+raise+" nuts to call.";draw();return}S.nuts-=raise;t.b.push(t.d.pop(),t.d.pop());var pe=best7(t.p.concat(t.b)),de=best7(t.h.concat(t.b)),q=de.cat>1||(de.cat===1&&de.pv>=4),ret=0,m;
+if(!q){ret=t.ante*2+raise;m="Dealer doesn’t qualify. Ante pays, raise pushes."}else if(pe.s>de.s){ret=(t.ante+raise)*2;m="You win."}else if(pe.s===de.s){ret=t.ante+raise;m="Tie. Push."}else m="Dealer wins.";
+S.nuts+=ret;var net=ret-t.ante-raise;t.msg=m+(net>0?" +"+net+" nuts":net<0?" "+net+" nuts":"")+" ("+CATN[pe.cat]+" vs "+CATN[de.cat]+")";t.st="done";save();draw()}
+function thHtml(){var t=TH,s='<div class="card"><h3>Texas Hold’em vs dealer</h3><p class="muted">Ante, see your cards and the flop, then call (raise 2x your ante) or fold. The dealer needs a pair of 4s or better to qualify.</p>';
+if(t.st==="idle")s+=betRow(false)+'<button class="btn" onclick="thDeal()">ANTE · '+BETV+'</button>';
+else{var fl=t.st==="flop";s+='<div class="muted">Dealer</div>'+(fl?'<span class="pc back">?</span><span class="pc back">?</span>':hand(t.h))+'<div class="muted" style="margin-top:8px">Board</div>'+hand(t.b)+'<div class="muted" style="margin-top:8px">You</div>'+hand(t.p);
+if(fl)s+='<div class="row2"><button class="btn" onclick="thCall()">Call '+(t.ante*2)+'</button><button class="btn ghost" onclick="thFold()">Fold</button></div>';
+else s+='<p style="font-weight:700">'+t.msg+'</p>'+betRow(false)+'<button class="btn" onclick="thDeal()">ANTE AGAIN · '+BETV+'</button>'}
+return s+'</div>'}
+/* packs */
+function pkOpen(){if(!ok18()||!spend(120))return;S.cards=S.cards||{};var out=[];for(var i=0;i<4;i++){var rar,r=Math.random();if(i===3)rar=r<.05?3:r<.30?2:1;else rar=r<.02?3:r<.12?2:r<.40?1:0;var pool=[];CARDS.forEach(function(c,ix){if(c[2]===rar)pool.push(ix)});var id=pool[Math.floor(Math.random()*pool.length)];out.push({id:id,nw:!S.cards[id]});S.cards[id]=(S.cards[id]||0)+1}PK=out;save();draw()}
+function pkSell(){S.cards=S.cards||{};var t=0;Object.keys(S.cards).forEach(function(id){var n=S.cards[id];if(n>1){t+=(n-1)*RAR[CARDS[id][2]][2];S.cards[id]=1}});if(t){S.nuts+=t;S.note="Sold duplicates for "+t+" nuts."}else S.note="No duplicates to sell.";save();draw()}
+function ctile(id,n,nw){var c=CARDS[id],q=RAR[c[2]];return '<div class="ct" style="border-color:'+q[1]+'"><div style="font-size:30px">'+c[0]+'</div><div style="font-size:12px;font-weight:700">'+c[1]+'</div><div style="font-size:11px;color:'+q[1]+'">'+q[0]+(nw?' · NEW':'')+(n>1?' · x'+n:'')+'</div></div>'}
+function pkHtml(){var cc=S.cards||{},own=Object.keys(cc).length,dup=0;Object.keys(cc).forEach(function(id){if(cc[id]>1)dup+=(cc[id]-1)*RAR[CARDS[id][2]][2]});
+return '<div class="card"><h3>Card packs</h3><p class="muted">4 gym cards per pack, with the last one Rare or better. Duplicates sell for 6, 20, 60 or 200 nuts by rarity.</p><button class="btn" onclick="pkOpen()">OPEN A PACK · 120</button>'+(PK.length?'<div class="cgrid">'+PK.map(function(x){return ctile(x.id,1,x.nw)}).join("")+'</div>':'')+'</div><div class="card"><div class="rw"><h3>Collection '+own+'/'+CARDS.length+'</h3>'+(dup?'<button class="chip on" onclick="pkSell()">Sell duplicates +'+dup+'</button>':'')+'</div><div class="cgrid">'+CARDS.map(function(c,ix){return cc[ix]?ctile(ix,cc[ix],false):'<div class="ct" style="opacity:.35;border-color:var(--line)"><div style="font-size:30px">❔</div><div style="font-size:12px">???</div></div>'}).join("")+'</div></div>'}
+function casino(){if(!ok18())return '<div class="card"><h3>Casino</h3><p class="muted">The casino is for adults only (18+). '+(S.prof.by?'The age in your stats is under 18, so it stays locked.':'Add your age to unlock it.')+'</p>'+(S.prof.by?'':'<button class="btn" onclick="wsetup()">ADD MY STATS</button>')+'</div>';
+return '<div class="hero"><div style="flex:1"><div class="rname">🥜 '+(S.nuts||0)+' nuts</div><div class="sub">Nuts only come from workouts and can’t be bought. Play for fun.</div></div></div><div class="chips" style="margin:12px 16px 0">'+GAMES.map(function(g){return '<button class="chip'+(GM===g[0]?' on':'')+'" data-g="'+g[0]+'" onclick="setGm(this.dataset.g)">'+g[1]+'</button>'}).join("")+'</div>'+(GM==="bj"?bjHtml():GM==="rl"?rlHtml():GM==="cr"?crHtml():GM==="vp"?vpHtml():GM==="th"?thHtml():pkHtml())}
+/* friends */
+function initSocial(){if(!window.claude||!claude.use)return;
+Promise.all([claude.use("user"),claude.use("db")]).then(function(a){USER=a[0];DB=a[1];if(!USER||!DB){DB=null;return}
+return USER.id().then(function(id){if(!id){DB=null;return}ME=id;return DB.doc("data/users/"+ME+"/friends").get().then(function(s){fr=s.exists?(s.data().ids||[]):[];return loadStats()}).then(function(){sync();draw()})})}).catch(function(){DB=null})}
+function loadStats(){var ids=fr.concat([ME]);return Promise.all(ids.map(function(id){return DB.doc("stats/"+id).get().then(function(s){if(s.exists)stats[id]=s.data()})})).then(function(){return USER.profiles(ids)}).then(function(p){pn=p})}
+function sync(){if(!DB||!ME)return;var t=totals(),st=streaks(),r=rank(t.t);var o={xp:t.t,rank:r.name,streak:st.cur,best:st.best,workouts:S.hist.length,flair:S.flair||""};stats[ME]=o;try{DB.doc("stats/"+ME).set(o).catch(function(){})}catch(e){}}
+function saveFr(){DB.doc("data/users/"+ME+"/friends").set({ids:fr}).catch(function(){})}
+function addFr(id){if(fr.indexOf(id)<0)fr.push(id);saveFr();hits=[];loadStats().then(draw)}
+function rmFr(id){fr=fr.filter(function(x){return x!==id});saveFr();draw()}
+function srch(v){clearTimeout(ft);ft=setTimeout(function(){if(v.trim().length<2){hits=[];showHits();return}
+USER.search(v.trim()).then(function(h){hits=h.filter(function(p){return p.id!==ME&&fr.indexOf(p.id)<0});showHits()})},300)}
+function who(id){return pn[id]&&pn[id].name||"Someone"}
+function av(id,c){return '<div class="av" style="background:'+c+'">'+esc(who(id).charAt(0).toUpperCase())+'</div>'}
+function showHits(){var el=document.getElementById("hits");if(!el)return;pn=pn||{};hits.forEach(function(p){pn[p.id]=p});
+el.innerHTML=hits.length?hits.map(function(p){return '<div class="lad">'+av(p.id,"#9aa3b5")+'<b style="flex:1">'+esc(p.name||"Someone")+'</b><button class="chip on" onclick="addFr(\''+p.id+'\')">Add friend</button></div>'}).join(""):'<div class="muted" style="margin-top:10px">Type a name to search people with access to this app.</div>'}
+function chipsOf(a){return '<div class="chips">'+a.map(function(k){return '<span class="chip">'+esc(k)+'</span>'}).join("")+'</div>'}
+function draw(){var tt=totals(),r=rank(tt.t),st=streaks(),g=groups();
+var th=holiday();document.documentElement.style.setProperty("--acc",th?th.acc:(accOv()||r.col));document.documentElement.style.setProperty("--hg",th?th.hg:(curBg()||"none"));document.documentElement.style.setProperty("--fr",frCol()||"transparent");document.documentElement.style.setProperty("--on","#14161f");
+document.getElementById("tabs").innerHTML=NAMES.map(function(n,i){return '<button class="'+(i===T?'on':'')+'" onclick="tab('+i+')"><svg viewBox="0 0 24 24">'+ICON[i]+'</svg>'+n+'</button>'}).join("");
+var h="",C=2*Math.PI*44;if(th)h+='<div class="card" style="margin-top:14px;border-color:var(--acc)"><b>'+th.e+' '+th.n+' theme</b><div class="muted">'+th.left+'</div></div>';if(S.note)h+='<div class="card"><div class="rw"><span>'+esc(S.note)+'</span><button class="x" onclick="clrNote()">×</button></div></div>';
+if(T===0||T===4){
+h+='<div class="hero"><div class="ring"><svg width="104" height="104"><circle cx="52" cy="52" r="44" fill="none" stroke="var(--line)" stroke-width="9"/><circle cx="52" cy="52" r="44" fill="none" stroke="'+r.col+'" stroke-width="9" stroke-linecap="round" stroke-dasharray="'+C+'" stroke-dashoffset="'+(C*(1-r.pct/100))+'"/></svg><b>'+tt.t+'</b></div><div><div class="rname">'+r.name+'</div><div class="sub">'+(r.next?r.need+' XP to '+r.next:'Top rank reached')+'</div><div class="streak"><svg width="16" height="16" viewBox="0 0 24 24" fill="'+r.col+'"><path d="M12 2c1 4 6 6 6 12a6 6 0 01-12 0c0-3 2-4 2-7 2 1 3 2 3 4 1-3 1-6 1-9z"/></svg>'+st.cur+' day streak</div> <div class="streak">🥜 '+(S.nuts||0)+' nuts</div></div></div>'}
+if(T===0){
+var today=S.routines.filter(function(x){return x.days.indexOf(new Date().getDay())>=0}),mus={},inc=S.unit==="kg"?2.5:5;S.cur.forEach(function(s){mus[mg(s.ex)]=1});
+today.forEach(function(x){h+='<div class="card"><div class="muted">Today\u2019s plan</div><h3>'+esc(x.name)+'</h3><div class="chips">'+x.ex.map(function(e,i){return '<button class="chip'+(e===last?' on':'')+'" onclick="pick(this.dataset.e)" data-e="'+esc(e)+'">'+esc(e)+'</button>'}).join("")+'</div></div>'});
+h+='<div class="card"><div class="pick"><div><span class="lbl" style="margin:0">Exercise</span><div class="f1">'+esc(last)+'</div><span class="tag">'+mg(last)+'</span> '+(S.rec[last]?'<span class="tag" style="background:var(--bg);color:var(--ink)">Recommended: '+S.rec[last]+' '+S.unit+'</span>':'')+'</div><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M6 9l6 6 6-6"/></svg><select onchange="selEx(this.value)">'+opts(last)+'</select></div>'+
+'<div class="steps"><div class="stp"><span class="lbl">Weight ('+S.unit+')</span><div><button onclick="stp(\'w\',-'+inc+')">−</button><input id="w" type="number" inputmode="decimal" value="'+W+'" oninput="W=parseFloat(this.value)||0"><button onclick="stp(\'w\','+inc+')">+</button></div></div>'+
+'<div class="stp"><span class="lbl">Reps</span><div><button onclick="stp(\'r\',-1)">−</button><input id="r" type="number" inputmode="numeric" value="'+R+'" oninput="R=parseFloat(this.value)||0"><button onclick="stp(\'r\',1)">+</button></div></div></div>'+
+'<button class="btn" onclick="add()">LOG SET · '+Math.round(W*Math.round(R)/10*fx())+' XP</button><label class="btn ghost" style="margin-top:10px;font-size:18px">Record a clip of this lift<input type="file" accept="video/*" capture="environment" hidden onchange="rec(this)"></label>'+
+'<div class="chips"><button class="chip'+(S.unit==="lb"?' on':'')+'" onclick="setUnit(\'lb\')">lb</button><button class="chip'+(S.unit==="kg"?' on':'')+'" onclick="setUnit(\'kg\')">kg</button></div></div>';
+h+='<div class="card"><div class="rw"><h3>This workout</h3>'+(S.cur.length?'<span class="muted">'+S.cur.length+' sets</span>':'')+'</div>';
+if(S.cur.length){h+=chipsOf(Object.keys(mus));
+S.cur.forEach(function(s,i){h+='<div class="set"><span><span class="n">'+s.w+' × '+s.r+'</span>'+(s.pr?'<span class="pr">PR</span>':'')+'<br><small>'+esc(s.ex)+' · '+mg(s.ex)+'</small></span><span><b>'+xp(s)+' XP</b><button class="x" onclick="del('+i+')">×</button></span></div>'});
+h+='<button class="btn" onclick="finish()">FINISH · GET MY GRADE</button>'}
+else h+='<div class="empty">No sets yet. Log your first set above.</div>';
+h+='</div><div class="card"><details><summary>Add your own exercise</summary><span class="lbl" style="margin-top:12px">Name</span><input id="cn" type="text" placeholder="Cable Kickback"><span class="lbl" style="margin-top:10px">Muscle group</span><select class="plain" id="cg">'+Object.keys(EX).map(function(k){return '<option>'+k+'</option>'}).join("")+'</select><button class="btn" onclick="addCustom()">SAVE EXERCISE</button></details></div>'}
+if(T===1){
+h+='<div class="card"><h3>Import a routine</h3><p class="muted">Take or pick a picture of a routine you already follow. I read the exercises and weights and fill in a new routine for you to review.</p><label class="btn" style="font-size:18px">Upload a routine picture<input type="file" accept="image/*" hidden onchange="importPic(this)"></label>'+(imp?'<p class="muted" style="margin-top:10px;color:var(--ink)">'+esc(imp)+'</p>':'')+(of("rpic").length?'<div class="grid">'+of("rpic").map(function(c){return '<div class="ph"><img src="'+c.url+'" alt="Routine picture"><button class="x" style="padding:0;font-size:14px;color:var(--ink)" onclick="delClip('+c.id+')">Remove</button></div>'}).join("")+'</div>':'')+'</div>';
+h+='<div class="card"><h3>New routine</h3><span class="lbl" style="margin-top:10px">Name</span><input type="text" placeholder="Push day" value="'+esc(rn)+'" oninput="rn=this.value"><span class="lbl" style="margin-top:12px">Exercises</span><select class="plain" id="rx">'+opts(last)+'</select><button class="btn ghost" style="margin-top:10px;font-size:18px" onclick="addDraft()">Add to routine</button>'+(draft.length?'<div class="chips">'+draft.map(function(e,i){return '<button class="chip on" onclick="draft.splice('+i+',1);draw()">'+esc(e)+' ×</button>'}).join("")+'</div>':'')+
+'<span class="lbl" style="margin-top:14px">Days</span><div class="chips" style="margin-top:0">'+DAYS.map(function(n,i){return '<button class="chip'+(dd.indexOf(i)>=0?' on':'')+'" onclick="togDay('+i+')">'+n+'</button>'}).join("")+'</div><button class="btn" onclick="saveRt()">SAVE ROUTINE</button></div>';
+h+='<div class="card"><h3>Weekly schedule</h3>'+DAYS.map(function(n,i){var a=S.routines.filter(function(x){return x.days.indexOf(i)>=0}).map(function(x){return esc(x.name)});return '<div class="set"><b'+(i===new Date().getDay()?' style="color:var(--acc)"':'')+'>'+n+'</b><span class="muted">'+(a.length?a.join(", "):'Rest')+'</span></div>'}).join("")+'</div>';
+if(S.routines.length){h+='<div class="card"><h3>My routines</h3>'+S.routines.map(function(x,i){return '<div class="set"><span><b>'+esc(x.name)+'</b><br><small>'+x.ex.map(function(e){return esc(e)+(S.rec[e]?' '+S.rec[e]:'')}).join(", ")+'</small></span><button class="x" onclick="delRt('+i+')">×</button></div>'}).join("")+'</div>'}}
+if(T===2){
+h+=photoCard();if(of("clip").length){h+='<div class="card"><h3>My clips</h3>'+of("clip").map(function(c){var u="";try{u=URL.createObjectURL(c.blob)}catch(e){}return '<div style="margin-top:12px"><div class="rw"><b>'+esc(c.ex)+'</b><span class="muted">'+new Date(c.date).toLocaleDateString()+'<button class="x" onclick="delClip('+c.id+')">×</button></span></div><video controls playsinline src="'+u+'"></video></div>'}).join("")+'</div>'}
+if(!S.hist.length)h+='<div class="card empty">Finished workouts show up here.</div>';
+S.hist.forEach(function(w){var x=0,m={};w.sets.forEach(function(s){x+=xp(s);m[mg(s.ex)]=1});
+h+='<div class="card"><div class="rw"><h3>'+new Date(w.date).toLocaleDateString(undefined,{weekday:"short",month:"short",day:"numeric"})+'</h3><span class="f1" style="font-size:34px;color:var(--acc)">'+grade(x)+'</span></div><div class="muted">'+w.sets.length+' sets · '+x+' XP</div>'+chipsOf(Object.keys(m))+'</div>'})}
+if(T===3){
+if(!DB){h+='<div class="card"><h3>Friends</h3><p class="muted">Friends work when you open Ironlog from its shared claude.ai link while signed in. Share that link with your friends, then search for them here.</p></div>'}
+else{var ids=fr.concat([ME]).sort(function(a,b){return((stats[b]||{}).xp||0)-((stats[a]||{}).xp||0)});
+h+='<div class="card"><h3>Leaderboard</h3>'+ids.map(function(id,i){var s=stats[id]||{xp:0,rank:"Pre Cum",streak:0},c=rank(s.xp).col;return '<div class="lad"><span class="f1" style="font-size:24px;width:22px">'+(i+1)+'</span>'+av(id,c)+'<div style="flex:1;min-width:0"><b>'+esc(who(id))+(id===ME?' (you)':'')+(s.flair?' '+esc(s.flair):'')+'</b><div class="muted">'+esc(s.rank)+' · '+s.xp+' XP · '+s.streak+' day streak</div></div>'+(id!==ME?'<button class="x" onclick="rmFr(\''+id+'\')">×</button>':'')+'</div>'}).join("")+(fr.length?'':'<div class="muted" style="margin-top:10px">Add a friend to start comparing ranks.</div>')+'</div>';
+h+='<div class="card"><h3>Add a friend</h3><input type="text" style="margin-top:10px" placeholder="Search by name" oninput="srch(this.value)"><div id="hits"></div><p class="muted">Friends are people who can open this app\u2019s link. They can see your rank, XP and streak, never your sets or clips.</p></div>'}}
+if(T===4){
+h+='<div class="card"><h3>Rank ladder</h3>'+RANKS.map(function(q,i){var on=i===r.i,got=i<=r.i;return '<div class="lad" style="opacity:'+(got?1:.45)+'"><span class="dot" style="background:'+q[2]+(on?';box-shadow:0 0 0 4px var(--line)':'')+'"></span><b style="flex:1;font-size:17px">'+q[0]+'</b><span class="muted">'+(on?'You are here':q[1]+' XP')+'</span></div>'}).join("")+'</div>';
+var P=S.prof,hs=P.log.slice(-5).reverse();
+h+='<div class="card"><h3>Your body stats</h3>'+(P.bw&&P.by?'<div class="rw" style="margin-top:8px"><div class="rname" style="font-size:44px">\u00d7'+fac()+'</div><div class="muted" style="text-align:right">Age '+age()+'<br>'+bwShow(P.bw)+' '+S.unit+'</div></div><div class="muted" style="margin-top:6px">XP multiplier for your weight and age. Lighter and older lifters earn more XP for the same weight on the bar. It applies to sets you log from now on.</div>'+hs.map(function(e){return '<div class="set"><span class="muted">'+new Date(e.date).toLocaleDateString()+'</span><b>'+bwShow(e.bw)+' '+S.unit+'</b></div>'}).join("")+'<button class="btn ghost" onclick="weighModal(\'monthly\')">Log my weight</button><button class="btn ghost" onclick="weighModal(\'setup\')">Edit age and weight</button>':'<p class="muted">Add your weight and age so your rank is judged fairly.</p><button class="btn" onclick="weighModal(\'setup\')">ADD MY STATS</button>')+'</div>';
+h+='<div class="card"><h3>Streak</h3><div class="rw"><div class="rname" style="font-size:48px">'+st.cur+' day'+(st.cur===1?'':'s')+'</div><div class="muted">Best '+st.best+'</div></div><div class="muted" style="margin-top:6px">Finish one workout a day to keep it going.</div></div><div class="card"><h3>Muscle ranks</h3>';
+Object.keys(g).forEach(function(k){var v=tt.m[k]||0,q=rank(v,3);h+='<div style="margin-top:14px"><div class="rw"><b>'+k+'</b><span class="muted">'+q.name+' · '+v+' XP</span></div><div class="bar"><i style="width:'+q.pct+'%;background:'+q.col+'"></i></div></div>'});
+h+='</div><div class="card muted">XP = weight × reps ÷ 10 per set. Workouts are graded D to S on XP earned. A PR is a set with a higher estimated one-rep max than any you have logged for that lift.</div>'}
+if(T===5){var L=S.lock,ok=unlocked(),dn=doneToday(),left=Math.max(0,L.need-dn),pct=Math.min(100,dn/L.need*100),all=PRE.slice();L.apps.forEach(function(a){if(all.indexOf(a)<0)all.push(a)});
+h+='<div class="hero"><div style="flex:1"><div class="rname">'+(!L.on?'Lock is off':ok?'Unlocked':'Locked')+'</div><div class="sub">'+(!L.on?'Turn the lock on to earn your screen time.':ok?'Your apps are open until midnight.':'Finish '+left+' more set'+(left===1?'':'s')+' to unlock.')+'</div><div class="bar"><i style="width:'+pct+'%;background:var(--acc)"></i></div><div class="muted" style="margin-top:6px">'+dn+' of '+L.need+' sets finished today</div>'+(L.on&&!ok?'<button class="btn" onclick="tab(0)">GO LOG A WORKOUT</button>':'')+'</div></div>';
+h+='<div class="card"><div class="rw"><h3>Apps to lock</h3><button class="chip'+(L.on?' on':'')+'" onclick="togLock()">'+(L.on?'Lock on':'Lock off')+'</button></div><div class="chips">'+all.map(function(a){var o=L.apps.indexOf(a)>=0;return '<button class="chip'+(o?' on':'')+'" data-a="'+esc(a)+'" onclick="togApp(this.dataset.a)">'+(o?(ok||!L.on?'Open · ':'Locked · '):'')+esc(a)+'</button>'}).join("")+'</div><div class="rw" style="margin-top:12px"><input id="la" type="text" placeholder="Another app or game"><button class="chip on" onclick="addApp()">Add</button></div></div>';
+h+='<div class="card"><h3>Sets to unlock</h3><div class="chips">'+[5,10,15,20].map(function(n){return '<button class="chip'+(L.need===n?' on':'')+'" onclick="setNeed('+n+')">'+n+' sets</button>'}).join("")+'</div><div class="muted" style="margin-top:8px">Sets count once you tap Finish on a workout today.</div></div>';
+h+='<div class="card"><h3>Make the lock real</h3><p class="muted">A web app can\u2019t see or close other apps, so on its own this screen is a scoreboard for whether you\u2019ve earned them. These phone settings do the blocking:</p><p class="muted"><b style="color:var(--ink)">iPhone.</b> Shortcuts, then Automation, then New, then App, then Is Opened, and pick your locked apps. Add the action Open URL with the link below and set it to run immediately. Opening Instagram then bounces you to this screen. For a hard block, use Screen Time app limits and have a friend set the passcode.</p><p class="muted"><b style="color:var(--ink)">Android.</b> Digital Wellbeing, then app timers or Focus mode, and pause your locked apps. Menu names vary by phone.</p><div class="chip" style="border-radius:12px;word-break:break-all;user-select:all">https://claude.ai/artifact/UuMEszSJyButeZr5RKW6v4#lock</div></div>'}
+if(T===6&&NT===1){h+=nutBar()+casino()}if(T===6&&NT===0){h+=nutBar();var nh=holAll()[0],sw=function(c){return '<span style="width:34px;height:34px;border-radius:10px;flex:none;border:1px solid var(--line);background:'+(c||'var(--bg)')+'"></span>'};
+h+='<div class="hero"><div style="flex:1"><div class="rname">🥜 '+(S.nuts||0)+' nuts</div><div class="sub">Each finished workout earns 10 nuts, plus 1 per 25 XP, 5 per PR and 1 per streak day (up to 10).</div></div></div>';
+h+='<div class="card"><div class="rw"><h3>Holiday themes</h3><button class="chip'+(S.hol?' on':'')+'" onclick="togHol()">'+(S.hol?'On':'Off')+'</button></div><p class="muted">'+(th?th.e+' '+th.n+' theme is active. ':'Themes switch on 7 days before a holiday and switch off the day after. ')+'Next holiday: '+nh.e+' '+nh.n+' in '+nh.diff+' day'+(nh.diff===1?'':'s')+'.</p></div>';
+h+='<div class="card"><h3>Backgrounds</h3>'+BGS.map(function(b){var own=b[2]===0||S.owned["bg"+b[0]],on=S.bg===b[0];return '<div class="lad">'+sw(b[3])+'<b style="flex:1">'+b[1]+'</b><button class="chip'+(on?' on':'')+'" data-i="'+b[0]+'" onclick="buyBg(this.dataset.i)">'+(on?'Using':own?'Use':'Buy · '+b[2])+'</button></div>'}).join("")+(th?'<p class="muted">Your holiday theme covers the background until it ends.</p>':'')+'</div>';
+h+='<div class="card"><h3>Accent colors</h3><p class="muted">Replaces your rank color across the app.</p>'+ACC.map(function(a){var own=a[2]===0||S.owned["ac"+a[0]],on=(S.accent||"rank")===a[0];return '<div class="lad">'+sw(a[3]||'var(--acc)')+'<b style="flex:1">'+a[1]+'</b><button class="chip'+(on?' on':'')+'" data-i="'+a[0]+'" onclick="buyAcc(this.dataset.i)">'+(on?'Using':own?'Use':'Buy · '+a[2])+'</button></div>'}).join("")+'</div>';
+h+='<div class="card"><h3>Photo frames</h3><p class="muted">A colored border on your progress photos.</p>'+FR.map(function(a){var own=a[2]===0||S.owned["fr"+a[0]],on=S.frame===a[0];return '<div class="lad">'+sw(a[3])+'<b style="flex:1">'+a[1]+'</b><button class="chip'+(on?' on':'')+'" data-i="'+a[0]+'" onclick="buyFrame(this.dataset.i)">'+(on?'Using':own?'Use':'Buy · '+a[2])+'</button></div>'}).join("")+'</div>';
+h+='<div class="card"><h3>Finish celebration</h3><p class="muted">Rains down when you finish a workout. 150 nuts each.</p><div class="chips">'+FXS.map(function(f){var own=S.owned["fx"+f[0]];return '<button class="chip'+(S.fx===f[0]?' on':'')+'" data-f="'+f[0]+'" onclick="buyFx(this.dataset.f)">'+f[0]+' '+f[1]+(own?'':' · 150')+'</button>'}).join("")+'</div></div>';
+h+='<div class="card"><h3>Power-ups</h3><div class="lad"><div style="flex:1"><b>Streak freeze</b><div class="muted">Covers missed days automatically so your streak survives. You hold '+S.freezes+' of 3.</div></div><button class="chip on" onclick="buyFreeze()">200</button></div><div class="lad"><div style="flex:1"><b>XP boost</b><div class="muted">Sets you log in your next workout earn 25% more XP.</div></div><button class="chip'+(S.boost?'':' on')+'" onclick="buyBoost()">'+(S.boost?'Active':'120')+'</button></div><div class="lad"><div style="flex:1"><b>Nut doubler</b><div class="muted">Your next finished workout earns double nuts.</div></div><button class="chip'+(S.dbl?'':' on')+'" onclick="buyDbl()">'+(S.dbl?'Active':'150')+'</button></div><div class="lad"><div style="flex:1"><b>Day pass</b><div class="muted">Unlocks your locked apps for today without a workout.</div></div><button class="chip'+(S.pass===dk(new Date())?'':' on')+'" onclick="buyPass()">'+(S.pass===dk(new Date())?'Active today':'250')+'</button></div></div>';
+h+='<div class="card"><h3>Leaderboard flair</h3><p class="muted">Shows next to your name for friends. 100 nuts each.</p><div class="chips">'+["🔥 Beast","🐐 GOAT","💪 Swole","🥜 Nutty","🦍 Gorilla","👑 Legend","💎 Diamond","🧠 Big Brain"].map(function(f){var own=S.owned["fl"+f];return '<button class="chip'+(S.flair===f?' on':'')+'" data-f="'+f+'" onclick="buyFlair(this.dataset.f)">'+f+(own?'':' · 100')+'</button>'}).join("")+'</div></div>'}
+document.getElementById("app").innerHTML=h;if(T===3&&DB)showHits()}
+applyFreeze();if(location.hash==="#lock")T=5;draw();idb(draw);initSocial();var nw=needWeigh();if(nw)setTimeout(function(){weighModal(nw)},400);
+</script>
+</body>
+</html>
